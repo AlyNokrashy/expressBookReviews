@@ -74,4 +74,50 @@ public_users.get("/review/:isbn", function (req, res) {
   res.send(JSON.stringify(books[isbn].reviews, null, 4));
 });
 
+// Tasks 10-13: Axios implementations
+const axios = require("axios");
+const BASE_URL = "http://localhost:5000";
+
+// Task 10: all books, async/await
+async function getAllBooks() {
+  const response = await axios.get(`${BASE_URL}/`);
+  console.log(JSON.stringify(response.data, null, 4));
+  return response.data;
+}
+
+// Task 11: by ISBN, Promise callbacks
+function getBookByISBN(isbn) {
+  return axios
+    .get(`${BASE_URL}/isbn/${isbn}`)
+    .then((response) => {
+      console.log(JSON.stringify(response.data, null, 4));
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+}
+
+// Task 12: by author, async/await
+async function getBooksByAuthor(author) {
+  const response = await axios.get(
+    `${BASE_URL}/author/${encodeURIComponent(author)}`
+  );
+  console.log(JSON.stringify(response.data, null, 4));
+  return response.data;
+}
+
+// Task 13: by title, async/await
+async function getBooksByTitle(title) {
+  const response = await axios.get(
+    `${BASE_URL}/title/${encodeURIComponent(title)}`
+  );
+  console.log(JSON.stringify(response.data, null, 4));
+  return response.data;
+}
+
 module.exports.general = public_users;
+module.exports.getAllBooks = getAllBooks;
+module.exports.getBookByISBN = getBookByISBN;
+module.exports.getBooksByAuthor = getBooksByAuthor;
+module.exports.getBooksByTitle = getBooksByTitle;
